@@ -84,7 +84,7 @@ class Controlador
         ];
 
         $datos = $_GET['id'];
-        $resultModelo = $this->modelo->productoId($datos);
+        $resultModelo = $this->modelo->obtenerProductoPorId($datos);
         if ($resultModelo['bool']) {
             $parametros['datos'] = $resultModelo['datos'];
             include_once 'vistas/verProducto.php';
