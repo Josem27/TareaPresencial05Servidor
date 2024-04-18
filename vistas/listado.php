@@ -52,7 +52,7 @@
                             <td>
                                 <a class="btn btn-warning" href="index.php?accion=editar&id=<?= $datos['codprod'] ?>" role="button">Editar</a>
                                 <a class="btn btn-primary" href="index.php?accion=producto&id=<?= $datos['codprod'] ?>" role="button">Detalles</a>
-                                <button class="btn btn-danger delete-product" data-product-id="<?= $datos['codprod'] ?>">Eliminar</button>
+                                <a class="btn btn-danger" href="index.php?accion=eliminar&id=<?= $datos['codprod'] ?>" role="button">Eliminar</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

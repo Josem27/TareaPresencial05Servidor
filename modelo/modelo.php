@@ -8,7 +8,7 @@ class Modelo {
     private $pass = "";
     private $db = "bdproductos"; // Nombre de la base de datos
 
-    private $longitudPag = 3; // Para Paginacion, si hiciera falta en el listado
+    private $longitudPag = 6; // Para Paginacion, si hiciera falta en el listado
     private $page = 0;
 
     public function __construct()
