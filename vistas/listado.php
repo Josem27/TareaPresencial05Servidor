@@ -51,8 +51,8 @@
                             <td><img src="<?= $datos['imagen'] ?>" alt="Imagen del producto" class="product-image"></td>
                             <td>
                                 <a class="btn btn-warning" href="index.php?accion=editar&id=<?= $datos['codprod'] ?>" role="button">Editar</a>
-                                <a class="btn btn-primary" href="index.php?accion=producto&id=<?= $datos['codprod'] ?>" role="button">Detalles</a>
-                                <a class="btn btn-danger" href="index.php?accion=eliminar&id=<?= $datos['codprod'] ?>" role="button">Eliminar</a>
+                                <a class="btn btn-primary" href="/index.php/api/producto&id=<?= $datos['codprod'] ?>" role="button">Detalles</a>
+                                <a class="btn btn-danger" href="/index.php/api/eliminar&id=<?= $datos['codprod'] ?>" role="button">Eliminar</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

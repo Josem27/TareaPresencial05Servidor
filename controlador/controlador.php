@@ -175,4 +175,47 @@ class Controlador
         include_once 'vistas/error.php';
     }
     
+    public function generarPDF()
+{
+    // Obtener todo el listado de productos
+    $resultModelo = $this->modelo->productos();
+
+    // Incluir los archivos de TCPDF localmente
+    require_once 'tcpdf/tcpdf.php';
+
+    // Crear una instancia de TCPDF
+    $pdf = new TCPDF();
+
+    // Establecer la ubicación de las fuentes de TCPDF
+    $fontPath = 'ruta/a/la/carpeta/fonts/';
+    TCPDF_FONTS::addTTFfont($fontPath . 'arial.ttf', 'TrueTypeUnicode', '', 32);
+
+    // Agregar contenido al PDF (ajusta según tus necesidades)
+    $pdf->AddPage();
+    $pdf->SetFont('times', 'B', 16);
+
+    foreach ($resultModelo as $producto) {
+        $pdf->Cell(0, 10, 'Detalles del Producto', 0, 1, 'C');
+        $pdf->Cell(0, 10, 'Nombre: ' . $producto['nombre'], 0, 1);
+        $pdf->Cell(0, 10, 'Observaciones: ' . $producto['observaciones'], 0, 1);
+        $pdf->Cell(0, 10, 'Precio: ' . $producto['pvp'] . ' €', 0, 1);
+        $pdf->Cell(0, 10, 'Stock: ' . $producto['stock'], 0, 1);
+        $pdf->Cell(0, 10, 'Categoría: ' . $producto['categoria_nombre'], 0, 1);
+
+        // Agregar la imagen al PDF
+        if ($producto['imagen'] != null) {
+            $imagePath = 'fotos/' . $producto['imagen']; // Ajusta la ruta de la imagen según sea necesario
+            $pdf->Image($imagePath, 10, 40, 90, 0, '', '', '', false, 300, '', false, false, 0);
+        }
+
+        // Agregar un salto de página después de cada producto
+        $pdf->AddPage();
+    }
+
+    // Salida del PDF
+    $pdf->Output('Listado_de_Productos.pdf', 'I');
+    exit();
+}
+
+
 }
