@@ -50,9 +50,9 @@
                             <td><?= $datos['categoria_nombre']?></td>
                             <td><img src="<?= $datos['imagen'] ?>" alt="Imagen del producto" class="product-image"></td>
                             <td>
-                                <a class="btn btn-warning" href="index.php?accion=editar&id=<?= $datos['codprod']?>" role="button">Editar</a>
-                                <a class="btn btn-primary" href="api/detalle/<?= $datos['codprod']?>" role="button">Detalles</a>
-                                <a class="btn btn-danger" href="index.php?accion=eliminar&id=<?= $datos['codprod'] ?>&borrar=true" role="button">Eliminar</a>
+                                <a class="btn btn-warning" href="index.php?accion=editar&id=<?= $datos['codprod'] ?>" role="button">Editar</a>
+                                <a class="btn btn-primary" href="api/producto/<?= $datos['codprod']?>" role="button">Detalles</a>
+                                <button class="btn btn-danger delete-product" data-product-id="<?= $datos['codprod'] ?>">Eliminar</button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -76,5 +76,33 @@
     // Incluir el archivo paginado.php y pasar los valores necesarios
     include_once 'includes/paginado.php';
     ?>
+
+    <script>
+        // Script para manejar la eliminación de productos usando AJAX
+        document.querySelectorAll('.delete-product').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                    fetch(`api/producto/${productId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al eliminar el producto');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('Producto eliminado correctamente');
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al eliminar el producto');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

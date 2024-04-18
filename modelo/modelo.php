@@ -113,41 +113,33 @@ public function productos()
         return $result;
     }
 
-    // Funcion para editar una entrada con id
-    public function editar($datos)
-    {
-        $result = [
-            "bool" => false,
-            "error" => null
-        ];
-        try {
-            // Sentencia SQL            
-            $sql = "UPDATE productos SET nombre= :nombre, categoria= :categoria, pvp= :pvp, stock= :stock, imagen= :imagen, Observaciones= :observaciones WHERE codprod= :id";
-    
-            $query = $this->conexion->prepare($sql);
-    
-            $query->execute([               
-                'nombre' => $datos['nombre'],
-                'categoria' => $datos['categoria'],
-                'pvp' => $datos['pvp'],
-                'stock' => $datos['stock'],
-                'imagen' => $datos['imagen'],
-                'observaciones' => $datos['observaciones'],
-                'id' => $datos['id']
-            ]);   
-    
-            // Verificar si la actualización se realizó correctamente
-            if ($query->rowCount() > 0) {
-                $result['bool'] = true;
-                $result['error'] = null;
-            } else {
-                $result['error'] = "No se encontró ninguna fila para actualizar.";
-            }
-        } catch (PDOException $e) {
-            $result['error'] = $e->getMessage();
+// Funcion para obtener los datos de un producto por su ID
+public function obtenerProductoPorId($id)
+{
+    $result = [
+        "datos" => null,
+        "error" => null,
+        "bool" => false,
+    ];
+
+    try {
+        $sql = "SELECT * FROM productos WHERE codprod = :id";
+        $query = $this->conexion->prepare($sql);
+        $query->execute(['id' => $id]);
+        
+        // Verificar si se encontraron datos
+        if ($query->rowCount() > 0) {
+            $result['bool'] = true;
+            $result['datos'] = $query->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $result['error'] = "No se encontró ningún producto con el ID proporcionado.";
         }
-        return $result;
+    } catch (PDOException $e) {
+        $result['error'] = $e->getMessage();
     }
+    
+    return $result;
+}
 
     // Funcion para gestionar la imagen subida
     public function get_image() {
